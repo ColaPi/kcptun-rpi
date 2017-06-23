@@ -11,7 +11,7 @@ script:
 - docker build -t $DOCKER_USER/$REPO .
 
 after_success:
-- set -x
+- set -e
 - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       docker login -u="$DOCKER_USER" -p="$DOCKER_PASS";
       TAG=`date +"%Y%m%d"`;
