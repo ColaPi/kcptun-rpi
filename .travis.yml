@@ -1,0 +1,21 @@
+env:
+  gloabl:
+    - DOCKER_USER=colachen REPO=kcptun-rpi
+
+sudo: required
+services:
+- docker
+language: bash
+script:
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+- docker build -t $DOCKER_USER/$REPO .
+
+after_success:
+- set -x
+- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      docker login -u="$DOCKER_USER" -p="$DOCKER_PASS";
+      TAG=`date +"%Y%m%d"`;
+      docker tag $DOCKER_USER/$REPO $DOCKER_USER/$REPO:$TAG;
+      docker push $DOCKER_USER/$REPO:$TAG;
+      docker push $DOCKER_USER/$REPO;
+  fi
