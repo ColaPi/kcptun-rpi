@@ -1,4 +1,4 @@
-sudo: required
+sudo: true
 dist: trusty
 language: bash
 
@@ -10,18 +10,12 @@ jobs:
             TAG=v`date +"%Y%m%d"`;
             docker run --rm --privileged multiarch/qemu-user-static:register --reset;
             docker build . -t colachen/kcptun-rpi:latest -t colachen/kcptun-rpi:$TAG;
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
+            docker push colachen/kcptun-rpi:$TAG;
+            docker push colachen/kcptun-rpi:latest;
           fi
 
     - stage: test image
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
         - docker run --rm colachen/kcptun-rpi -v
-
-    - stage: push image
-      script:
-        - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            TAG=v`date +"%Y%m%d"`;
-            docker push colachen/kcptun-rpi:$TAG;
-            docker push colachen/kcptun-rpi:latest;
-          fi
