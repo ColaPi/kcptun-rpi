@@ -1,8 +1,8 @@
-FROM hypriot/rpi-alpine:3.5
+FROM resin/raspberrypi3-alpine
 
 MAINTAINER cola <colachg@gmail.com>
 
-ARG KCP_VER=20170525
+ARG KCP_VER=20181002
 ARG KCP_URL=https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-arm-$KCP_VER.tar.gz
 
 RUN set -ex &&\

@@ -1,21 +1,27 @@
-env:
-  gloabl:
-    - DOCKER_USER=colachen REPO=kcptun-rpi
-
 sudo: required
-services:
-- docker
+dist: trusty
 language: bash
-script:
-- docker run --rm --privileged multiarch/qemu-user-static:register --reset
-- docker build -t $DOCKER_USER/$REPO .
 
-after_success:
-- set -e
-- if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      docker login -u="$DOCKER_USER" -p="$DOCKER_PASS";
-      TAG=`date +"%Y%m%d"`;
-      docker tag $DOCKER_USER/$REPO $DOCKER_USER/$REPO:$TAG;
-      docker push $DOCKER_USER/$REPO:$TAG;
-      docker push $DOCKER_USER/$REPO;
-  fi
+jobs:
+  include:
+    - stage: build image
+      script:
+        - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+            TAG=v`date +"%Y%m%d"`;
+            docker run --rm --privileged multiarch/qemu-user-static:register --reset;
+            docker build . -t colachen/kcptun-rpi:latest -t colachen/kcptun-rpi:$TAG;
+          fi
+
+    - stage: test image
+      script:
+        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+        - docker run --rm colachen/kcptun-rpi -v
+
+    - stage: push image
+      script:
+        - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            TAG=v`date +"%Y%m%d"`;
+            docker push colachen/kcptun-rpi:$TAG;
+            docker push colachen/kcptun-rpi:latest;
+          fi
