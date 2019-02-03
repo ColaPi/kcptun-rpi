@@ -2,7 +2,7 @@ FROM resin/raspberrypi3-alpine
 
 MAINTAINER cola <colachg@gmail.com>
 
-ARG KCP_VER=20190104
+ARG KCP_VER=20190109
 ARG KCP_URL=https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-arm-$KCP_VER.tar.gz
 
 RUN set -ex &&\
