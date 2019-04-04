@@ -1,4 +1,4 @@
-FROM arm32v7/alpine
+FROM balenalib/armv7hf-alpine:latest-run
 
 MAINTAINER cola <colachg@gmail.com>
 
