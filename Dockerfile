@@ -1,4 +1,4 @@
-FROM balenalib/armv7hf-alpine
+FROM arm32v7/alpine
 
 MAINTAINER cola <colachg@gmail.com>
 
