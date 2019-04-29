@@ -3,7 +3,7 @@ FROM balenalib/armv7hf-alpine:latest-run
 MAINTAINER cola <colachg@gmail.com>
 
 ARG KCP_VER=20190428
-ARG KCP_URL=https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-arm-$KCP_VER.tar.gz
+ARG KCP_URL=https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-arm7-$KCP_VER.tar.gz
 
 RUN set -ex &&\
     apk add --update --no-cache --virtual .build curl &&\
