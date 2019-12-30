@@ -2,7 +2,7 @@ FROM balenalib/armv7hf-alpine:latest-run
 
 MAINTAINER cola <colachg@gmail.com>
 
-ARG KCP_VER=20191112
+ARG KCP_VER=20191229
 ARG KCP_URL=https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-arm7-$KCP_VER.tar.gz
 
 RUN set -ex &&\
